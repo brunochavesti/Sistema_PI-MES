@@ -1,0 +1,34 @@
+{% extends 'monitoramento/base_monitoramento.html' %}
+{% load static %}
+
+{% block 'head' %}
+
+    {% block 'importacoes' %}
+    <link href="{% static 'css/monitoramento.css' %}" rel="stylesheet">
+    {% endblock %}
+    
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+    <br>
+    <div class="text-center">
+        <h3>Editando a Produto: {{codigo.numero_da_of}}</h3>
+    </div>
+    <br>
+
+    <form action="{% url 'update' codigo.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}        
+        <label>Código do Produto</label>
+        <input type="text" name="codigo_produto" class="form-control" value="{{codigo.codigo_produto}}">
+        <br>
+        <label>Produto</label>
+        <input type="text" name="produto" class="form-control" value="{{codigo.produto}}">
+        <br>
+        <label>Tempo do Produto em segundos</label>
+        <input type="text" name="tempo_produto" class="form-control" value="{{codigo.tempo_produto}}">
+        <br>
+        <input type="submit" class="btn-principal" value="Editar produto">
+    </form>
+</div>
+      
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'usuarios/base.html' %}
+
+{% load static %}
+
+{% block 'head' %}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block 'body' %}
+    <div class="container-fluid bg-login">
+        
+        <div class="row">
+            <div class="col-md">
+                <h3 class="logo"></h3>
+
+                <div class="box-form">
+                    <BR>
+                    <BR>
+                    <h3>Login</h3>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <BR>
+                                        
+                    <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+                        <label>Nome de usuário</label>
+                        <input type="text" class="form-control" placeholder="Nome de usuário..." name="username">
+                        <br>    
+                        <label>Senha</label>
+                        <input type="password" class="form-control" placeholder="Senha..." name="senha">
+                        
+                        <BR>
+                        <a href="{% url 'login' %}" class="link">Esqueci minha senha</a>
+                        <br>
+                        <br>
+                        <input type="submit" value="ENTRAR" class="btn-principal">
+                    </form>
+                </div>
+
+            
+
+            </div>
+
+            <div class="col-md bg-img">
+            
+            </div>
+        
+        </div>
+    </div>
+{% endblock %}

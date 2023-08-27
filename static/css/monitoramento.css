@@ -1,0 +1,157 @@
+.navbar-color{
+    background-color: #304651 !important;       
+}
+
+.monitoramento-cor-verde{
+    background-color: #38761d !important;           
+}
+
+.monitoramento-cor-amarelo{
+    background-color: #ffff00 !important;
+    color: black;      
+}
+
+.monitoramento-cor-vermelho{
+    background-color: #990000 !important;       
+}
+
+.monitoramento-cor-cinza{
+    background-color: #666666 !important;       
+}
+
+.monitoramento-cor-rosa{
+    background-color: #a64d79 !important;       
+}
+
+.monitoramento-cor-azul{
+    background-color: #0b5394 !important;       
+}
+
+.maquina-cor-verde{
+    background-color: #38761d !important;
+    font-size: 100px;           
+}
+
+.maquina-cor-amarelo{
+    background-color: #ffff00 !important;
+    color: black;
+    font-size: 100px;        
+}
+
+.maquina-cor-vermelho{
+    background-color: #990000 !important;
+    font-size: 100px;         
+}
+
+.maquina-cor-cinza{
+    background-color: #666666 !important;
+    font-size: 100px;        
+}
+
+.maquina-cor-rosa{
+    background-color: #a64d79 !important;
+    font-size: 100px;         
+}
+
+.maquina-cor-azul{
+    background-color: #0b5394 !important;
+    font-size: 100px;         
+}
+
+.maquina-legenda-cor-verde{
+    background-color: #38761d !important;               
+}
+
+.maquina-legenda-cor-amarelo{
+    background-color: #ffff00 !important;
+    color: black;      
+}
+
+.maquina-legenda-cor-vermelho{
+    background-color: #990000 !important;       
+}
+
+.maquina-legenda-cor-cinza{
+    background-color: #666666 !important;       
+}
+
+.maquina-legenda-cor-rosa{
+    background-color: #a64d79 !important;       
+}
+
+.maquina-legenda-cor-azul{
+    background-color: #0b5394 !important;       
+}
+
+
+
+.cor-preto{
+    background-color: black !important;       
+}
+
+.cor-verde{
+    background-color: #38761d !important;       
+}
+
+.cor-amarelo{
+    background-color: #ffff00 !important;
+    color: black;       
+}
+
+.cor-vermelho{
+    background-color: #990000 !important;       
+}
+
+.cor-cinza{
+    background-color: #666666 !important;       
+}
+
+.cor-rosa{
+    background-color: #a64d79 !important;       
+}
+
+.cor-azul{
+    background-color: #0b5394 !important;       
+}
+
+
+
+body{
+    background-color: #304651;
+}
+
+h1{
+    color: black
+}
+
+h2{
+    color: rgb(121, 121, 121)
+}
+
+.numerodaof{
+    color: rgb(121, 121, 121)
+}
+
+.btn-principal{
+    background-color: transparent;
+    color: white;    
+    font-weight: normal;
+    border: none;    
+    font-size: 30px;       
+}
+
+table{
+    width: 100%;
+    padding: 20px;
+}
+
+.linha{
+    height: 40px;
+    background-color: var(--main-color);
+    padding: 20px;
+}
+
+
+td, th{
+    padding: 20px;
+}

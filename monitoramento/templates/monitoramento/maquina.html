@@ -1,0 +1,338 @@
+{% extends 'monitoramento/base_monitoramento.html' %}
+{% load static %}
+
+{% block 'head' %}
+
+    {% block 'importacoes' %}{% endblock %}
+    <link href="{% static 'css/monitoramento.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block 'conteudo' %}
+
+<!--
+<button id="startButton">Iniciar</button>
+<button id="pauseButton">Pausar</button>
+-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var getTimerStateURL = "{% url 'get_timer_state' %}";
+</script>
+<script src="{% static 'js/cronometro.js' %}"></script>
+
+
+
+<div class="container-fluid px-4">    
+    <div class="row text-center">
+        <div class="col-12 maquina-cor-vermelho d-flex align-items-center justify-content-center" style="height:450px">
+            Parada
+        </div>
+    </div>
+
+    <div class="row gap-3">
+        <!--Indicadores da OF-->
+        <div class="col-lg" style="height:450px">
+            <br>
+            <!--Requisição a View do Sistema PI MES-->           
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Número da O.F:</span>                
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">                    
+                        {{ numero_da_of }}                    
+                  </span>                 
+                </div>
+            </div>
+
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Código do Produto:</span>
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">
+                    {% for cadastro in cadastros %}
+                        {{ cadastro.codigo_produto }}
+                    {% endfor %}
+                  </span>
+                </div>
+            </div>
+
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Produto:</span>
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">
+                    {% for cadastro in cadastros %}
+                        {{ cadastro.produto }}
+                    {% endfor %}
+                  </span>
+                </div>
+            </div>
+
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Qtd. O.F:</span>
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">
+                    {{ quantidade_of }}
+                  </span>
+                </div>
+            </div>
+
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Qtd. Lançada:</span>
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">
+                    
+                  </span>
+                </div>
+            </div>
+
+            <div class="row" style="height: calc(100% / 8); font-size: 30px">
+                <div class="col d-flex align-items-center">
+                  <span style="display: inline-block;">Operador: </span>
+                  <span style="color: yellow; display: inline-block; margin-left: 15px;">
+                    
+                  </span>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            
+            
+
+            <!--Botões--> 
+            <div class="row gap-2">
+                <div class="col">
+                    <div class="gap-2 d-flex justify-content-between">
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#of" style="width: 100%">
+                            O.F
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#codigoparada" style="width: 100%">
+                            Código Parada
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#lancarproducao" style="width: 100%">
+                            Lançar Produção
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#lancarrefugo" style="width: 100%">
+                            Lançar Refugo
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#trocaroperador" style="width: 100%">
+                            Trocar Operador
+                        </button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#encerrarof" style="width: 100%">
+                            Encerrar O.F.
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Modal O.F-->
+        <div id="of" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">O.F.</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">                        
+                        <form action="{% url 'maquina' %}" method="POST">{% csrf_token %}
+                            <label>o.f de 6 números</label>
+                            <input type="text" class="form-control" placeholder="O.F de 6 números..." name="of6numeros">
+                            <label>codigo_produto</label>
+                            <input type="text" class="form-control" placeholder="Código do Produto..." name="codigoproduto">
+                            <label>Produto</label>
+                            <input type="text" class="form-control" placeholder="Produto..." name="produto">
+                            <label>quantidade_of</label>
+                            <input type="text" class="form-control" placeholder="Quantidade da O.F..." name="quantidadeof">
+                            <br>
+                    </div>                
+                    <div class="modal-footer">                        
+                        <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Salvar">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Código Parada-->
+        <div id="codigoparada" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Código Parada</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">
+                        <h2>Selecione a parada desejada.</h2>
+                        <select class="form-select">
+                            <option></option>
+                            <option style="background-color: #38761d">PRODUÇÃO</option>
+                            <option style="background-color: #ffff00">AGUARDANDO LIBERAÇÃO</option>
+                            <option style="background-color: #990000">PREPARAÇÃO DE MÁQUINA</option>
+                            <option style="background-color: #990000">MÁQUINA EM STAND BY</option>
+                            <option style="background-color: #990000">AFIAÇÃO DE FERRAMENTA</option>
+                            <option style="background-color: #990000">FALTA DE FERRAMENTA</option>
+                            <option style="background-color: #990000">FALTA DE PROGRAMADOR</option>
+                            <option style="background-color: #990000">FALTA DE OPERADOR</option>
+                            <option style="background-color: #990000">LIMPEZA</option>
+                            <option style="background-color: #990000">MANUTENÇÃO</option>                            
+                            <option style="background-color: #990000">AJUSTE DE MÁQUINA</option>
+                            <option style="background-color: #990000">FALTA DE MATÉRIA PRIMA</option>
+                            <option style="background-color: #990000">FALTA DE ENERGIA</option>                            
+                            <option style="background-color: #666666">INTERVALO</option>
+                            <option style="background-color: #a64d79">TRY OUT</option>
+                            <option style="background-color: #0b5394">TREINAMENTO</option>                            
+                        </select>
+                        <br>
+                    </div>                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="startButton">Salvar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="pauseButton">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Lançar Produção-->
+        <div id="lancarproducao" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Lançar Produção</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">                        
+                        <form action="" method="POST">{% csrf_token %}
+                            <label>quantidade produzida</label>
+                            <input type="text" class="form-control" placeholder="Quantidade produzida..." name="quantidadeproduzida">
+                            <br>
+                    </div>                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Lançar Refugo-->
+        <div id="lancarrefugo" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Lançar Refugo</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">
+                        <form action="" method="POST">{% csrf_token %}
+                            <label>quantidade refugada</label>
+                            <input type="text" class="form-control" placeholder="Quantidade refugada..." name="quantidaderefugada">
+                            <br>
+                    </div>                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Trocar Operador-->
+        <div id="trocaroperador" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Trocar Operador</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">
+                        <h2>Selecione o operador</h2>
+                        <select class="form-select">
+                            <option></option>
+                            <option>Operador 1</option>
+                            <option>Operador 2</option>
+                            <option>Operador 3</option>
+                            <option>Operador 4</option>
+                            <option>Operador 5</option>
+                        </select>
+                        <br>
+                    </div>                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Trocar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Encerrar O.F-->
+        <div id="encerrarof" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Encerrar O.F</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-color-black">
+                        <h2>Deseja encerrar a O.F.?</h2>
+                    </div>                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Sim</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+         <!--Indicadores da máquina-->
+        <div class="col-lg text-center cor-preto" style="height:450px">
+            <div class="row d-flex align-items-center justify-content-center" style="height: calc(220% / 6); font-size: 50px">
+                MÁQUINA 1
+            </div>             
+            <div class="row" style="height: calc(50% / 6); font-size: 20px">
+                <div class="col">OEE</div>
+                <div class="col">DISPONIBILIDADE</div>
+                <div class="col">PERFORMANCE</div>
+                <div class="col">QUALIDADE</div>
+            </div>
+            <div class="row" style="height: calc(180% / 6);font-size: 55px">
+                <div class="col">85%</div>
+                <div class="col">90%</div>
+                <div class="col">95%</div>
+                <div class="col">99%</div>
+            </div>                
+            <div class="row" style="height: calc(50% / 6);font-size: 20px">                                            
+                <div id="cronometro" class="col">00:00:00</div>
+                <div id="cronometro_liberacao" class="col">00:00:00</div>                
+                <div id="cronometro_parada" class="col">00:00:00</div>
+                <div id="cronometro_intervalo" class="col">00:00:00</div>
+                <div id="cronometro_tryout" class="col">00:00:00</div>
+                <div id="cronometro_treinamento" class="col">00:00:00</div>            
+            </div>
+            <div class="row" style="height: calc(50% / 6);font-size: 20px">
+                <div class="col">0%</div>
+                <div class="col">0%</div>
+                <div class="col">0%</div>
+                <div class="col">0%</div>
+                <div class="col">0%</div>
+                <div class="col">0%</div>
+            </div>
+            <div class="row gap-1" style="height: calc(50% / 6)">
+                <div class="col-md maquina-legenda-cor-verde d-flex align-items-center justify-content-center">PRODUÇÃO</div>
+                <div class="col-md maquina-legenda-cor-amarelo d-flex align-items-center justify-content-center">LIBERAÇÃO</div>
+                <div class="col-md maquina-legenda-cor-vermelho d-flex align-items-center justify-content-center">PARADA</div>
+                <div class="col-md maquina-legenda-cor-cinza d-flex align-items-center justify-content-center">INTERVALO</div>
+                <div class="col-md maquina-legenda-cor-rosa d-flex align-items-center justify-content-center">TRY OUT</div>
+                <div class="col-md maquina-legenda-cor-azul d-flex align-items-center justify-content-center">TREINAMENTO</div>
+            </div>            
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

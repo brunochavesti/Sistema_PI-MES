@@ -1,0 +1,104 @@
+{% extends 'monitoramento/base_monitoramento.html' %}
+{% load static %}
+
+{% block 'head' %}
+
+    {% block 'importacoes' %}{% endblock %}
+    <link href="{% static 'css/monitoramento.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block 'conteudo' %}
+
+<!-- Legenda de cores início da página -->
+<div class="container-fluid text-center">
+  <div class="row gap-2 p-2 pb-5 align-items-start">  
+    <!-- cor no monitoramento.css -->        
+    <div class="col-md monitoramento-cor-verde"> 
+      Produção
+    </div>
+    <div class="col-md monitoramento-cor-amarelo">
+      Liberação
+    </div>
+    <div class="col-md monitoramento-cor-vermelho">
+      Parada
+    </div>
+    <div class="col-md monitoramento-cor-cinza">
+      Intervalo
+    </div>
+    <div class="col-md monitoramento-cor-rosa">
+      Try out
+    </div>
+    <div class="col-md monitoramento-cor-azul">
+      Treinamento
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container text-center cor-preto" style="height: 250px; width: 450px">
+  <div class="row" style="height: 250px; width: 450px">      
+      <div class="col-md-6">          
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-verde">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-verde">00:00:00</div>
+        </div>
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-amarelo">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-amarelo">00:00:00</div>
+        </div>
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-vermelho">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-vermelho">00:00:00</div>
+        </div>
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-cinza">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-cinza">00:00:00</div>
+        </div>
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-rosa">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-rosa">00:00:00</div>
+        </div>
+        <div class="row" style="height: calc(100% / 8)">
+          <div class="col-md d-flex align-items-center justify-content-center cor-azul">100%</div>
+          <div class="col-md d-flex align-items-center justify-content-center cor-azul">00:00:00</div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(200% / 8)">
+          00:00:00
+        </div>
+      </div>
+
+      <div class="col-md-6 cor-vermelho">
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          Máquina 1
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          O.F:
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          Código:
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          Produto:
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          Qtd. O.F:
+        </div>
+        <div class="row d-flex align-items-center justify-content-center" style="height: calc(100% / 8)">
+          Qtd. Lançada:
+        </div>
+        <div class="row d-flex align-items-center justify-content-center cor-preto" style="height: calc(200% / 8)">
+          00:00:00
+        </div>
+      </div>
+           
+
+    
+
+  </div>  
+</div>
+
+
+
+{% endblock %}

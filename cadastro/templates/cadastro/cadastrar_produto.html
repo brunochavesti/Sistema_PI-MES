@@ -1,0 +1,42 @@
+{% extends 'monitoramento/base_monitoramento.html' %}
+{% load static %}
+
+{% block 'head' %}
+
+    {% block 'importacoes' %}{% endblock %}
+    <link href="{% static 'css/monitoramento.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+    <br>
+    <div class="text-center">
+        <h3>Cadastrar Produto</h3>       
+
+        {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+    </div>
+    <br>
+    <form action="{% url 'cadastrar_produto' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <label>Código do Produto</label>
+        <input type="text" name="codigo_produto" class="form-control" placeholder="Digite o código do produto...">
+        <br>
+        <label>Produto</label>
+        <input type="text" name="produto" class="form-control" placeholder="Digite a descrição do produto...">
+        <br>
+        <label>Tempo do produto</label>
+        <input type="text" name="tempo_produto" class="form-control" placeholder="Digite o tempo do produto em segundos...">
+        <br>
+        <input type="submit" class="btn-principal" value="Cadastrar">
+    </form>       
+</div> 
+<br>
+<br>
+
+
+{% endblock %}
